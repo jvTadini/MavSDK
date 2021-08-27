@@ -1,12 +1,7 @@
-#!/usr/bin/env python3
-
 import asyncio
 from mavsdk import System
 
-
 async def run():
-
-    #drone = System()
 
     drone1 = System(mavsdk_server_address="localhost", port=50040)
     drone2 = System(mavsdk_server_address="localhost", port=50041)
@@ -19,7 +14,7 @@ async def run():
     print("Waiting for drone to connect...")
     async for state in drone1.core.connection_state():
         if state.is_connected:
-            print(f"Drone discovered!")
+            print(f"Drone 1 discovered!")
             break
 
     print("Waiting for drone 2 to connect...")
@@ -34,16 +29,12 @@ async def run():
             print(f"Drone 3 discovered!")
             break
 
-    print("-- Arming")
+    print("-- Arming ")
     await drone1.action.arm()
-
-    print("-- Arming 2 ")
     await drone2.action.arm()
-
-    print("-- Arming 3 ")
     await drone3.action.arm()
-
-    # VOAR
+    
+    print("-- Seting Takeoff Altitude")
     await drone1.action.set_takeoff_altitude(2)
     await drone2.action.set_takeoff_altitude(1)
     await drone3.action.set_takeoff_altitude(3)
